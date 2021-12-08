@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/bf_compiler.dir/bf_compiler.cpp.o  -o bf_compiler 
