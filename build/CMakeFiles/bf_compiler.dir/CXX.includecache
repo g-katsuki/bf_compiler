@@ -13,6 +13,8 @@ iostream
 -
 string
 -
-new
+map
+-
+vector
 -
 
