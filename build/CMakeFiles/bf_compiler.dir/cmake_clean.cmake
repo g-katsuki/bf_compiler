@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/bf_compiler.dir/bf_compiler.cpp.o"
-  "bf_compiler"
+  "CMakeFiles/bf_compiler.dir/bf_compiler.cpp.obj"
+  "bf_compiler.exe"
+  "bf_compiler.exe.manifest"
   "bf_compiler.pdb"
+  "libbf_compiler.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

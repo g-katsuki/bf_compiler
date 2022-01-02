@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/gokatsuki/workspace/tc_ws/Brainfuck/bf_compiler.cpp
+C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/bf_compiler.cpp
 fstream
 -
 iostream
@@ -16,5 +16,7 @@ string
 map
 -
 vector
+-
+stack
 -
 

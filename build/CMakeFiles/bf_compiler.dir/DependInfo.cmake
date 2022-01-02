@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/gokatsuki/workspace/tc_ws/Brainfuck/bf_compiler.cpp" "/home/gokatsuki/workspace/tc_ws/Brainfuck/build/CMakeFiles/bf_compiler.dir/bf_compiler.cpp.o"
+  "C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/bf_compiler.cpp" "C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/build/CMakeFiles/bf_compiler.dir/bf_compiler.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
