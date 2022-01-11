@@ -1,3 +1,0 @@
-/home/gokatsuki/workspace/tc_ws/Brainfuck/build/CMakeFiles/rebuild_cache.dir
-/home/gokatsuki/workspace/tc_ws/Brainfuck/build/CMakeFiles/edit_cache.dir
-/home/gokatsuki/workspace/tc_ws/Brainfuck/build/CMakeFiles/bf_compiler.dir

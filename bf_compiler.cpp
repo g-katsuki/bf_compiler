@@ -6,13 +6,15 @@
 #include <stack>
 
 using namespace std;
+using std::cout;
 
-void getSymbols(const string &line, map<int, char> &symbols, int &idx, int &comma)
+void getSymbols(const string &line, map<int, char> &symbols, int &idx, int &comma, int &space)
 {
   int count = 0;
   for(int i = 0, size = line.size(); i < size; i++){
-    if(line[i] != '+'){
-      symbols[i+idx] = line[i];  // スペースに対応できてない
+    if(line[i] == ' ') space++;
+    else if(line[i] != '+'){
+      symbols[i+idx-space] = line[i];  // スペースに対応できてない
     }
     if(line[i] == '.') comma++;
     count++;
@@ -28,8 +30,12 @@ void calcSymbols(const map<int, char> &symbols, vector<int> &output)
   stack<int> roop_idx_stack;
   stack<int> roop_place_stack;
   auto roop_it = symbols.begin();
+  cout << "start" << endl;
+
+  int dot_count_for_debug = 0;
   for(auto it = symbols.begin(); it != symbols.end(); it++){
-    // cout << "first: " << it->second << endl; 
+    if(it == symbols.end()) cout << "END" << endl;
+    //cout << "first: " << it->first << endl; 
     counts[count_idx] += it->first - past_symbol_idx - 1;
     past_symbol_idx = it->first;
     if(it->second == '>'){
@@ -47,57 +53,69 @@ void calcSymbols(const map<int, char> &symbols, vector<int> &output)
       continue;
     }
     else if(it->second == '['){
-      roop_idx_stack.push(count_idx);
+      //roop_idx_stack.push(count_idx);
       roop_place_stack.push(it->first);
-      cout << "QQ: " << roop_place_stack.top() << endl;
       continue;
     }
     else if(it->second == ']'){
-      //cout << "sta" << counts[roop_idx_stack.top()] << endl;
-      if(counts[roop_idx_stack.top()] != 0){
+      if(counts[count_idx] > 0){
+        // cout << "top: " << counts[roop_idx_stack.top()] << endl;
+        // cout << "nowcount: " << counts[count_idx] << endl;
         it = symbols.find(roop_place_stack.top());  // ここから！！！
-        //cout << "roop: " << roop_place_stack.top() << endl;
         past_symbol_idx = it->first;
       } else {
-        //cout << "A" << endl;
-        roop_idx_stack.pop();
+        // roop_idx_stack.pop();
         roop_place_stack.pop();
-        //cout << "S" << endl;
       }
     // cout << "F: " << roop_idx_stack.size() << endl;
       continue;
     }
     else if(it->second == '.'){
-        // cout << "D" << endl;
+      dot_count_for_debug++;
+      // cout << "debug: " << dot_count_for_debug << endl;
+      // cout << endl;
         // cout << "num: " << counts[count_idx] << endl;
         // cout << "num0: " << counts[0] << endl;
         // cout << "num1: " << counts[1] << endl;
         // cout << "num2: " << counts[2] << endl;
+        // cout << "num3: " << counts[3] << endl;
         // cout << "idx: " << count_idx << endl;
       printf("%c", counts[count_idx]);
+      output[output_count] = counts[count_idx];
+      output_count++;
     }
   }
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
   std::ifstream file;
-  std::string filename = "./../sample/examples/test.bf";
-  file.open(filename, std::ios::in);
+  std::string file_name = argv[1];
+  std::string path = "./../sample/examples/" + file_name;
+  file.open(path, std::ios::in);
   int *ptr;
-  int idx = 1, comma = 0;
+  int idx = 1, comma = 0, space = 0;
   map<int, char> symbols;
   vector<int> output;
   std::string line;
   while(std::getline(file, line)){
-    getSymbols(line, symbols, idx, comma);
+    getSymbols(line, symbols, idx, comma, space);
   }
-  output.resize(comma);
-  calcSymbols(symbols, output);
-//   for(int i = 0, size = output.size(); i < size; i++){
-//     //cout << "output: " << output[i] << endl;
-//     //printf("%c", output[i]);
+  output.resize(1000);
+
+// int a=0;
+//   for(auto it = symbols.begin(); it != symbols.end(); it++){
+//     a++;
+//     cout << "a: " << a << endl;
+//     cout << "it_first: " << it->first << endl;
 //   }
+
+  calcSymbols(symbols, output);
+  cout << "size: " << output.size() << endl;
+  // for(int i = 0, size = output.size(); i < size; i++){
+    // cout << "output: " << output[i] << endl;
+    // printf("%c", output[i]);
+  // }
 
   return 0;
 }
