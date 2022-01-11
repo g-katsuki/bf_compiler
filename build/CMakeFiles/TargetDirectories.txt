@@ -1,3 +1,0 @@
-C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/build/CMakeFiles/bf_compiler.dir
-C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/build/CMakeFiles/edit_cache.dir
-C:/Users/GK/Desktop/workspace/tc_ws/bf_compiler/build/CMakeFiles/rebuild_cache.dir
