@@ -14,7 +14,7 @@ void getSymbols(const string &line, map<int, char> &symbols, int &idx, int &comm
   for(int i = 0, size = line.size(); i < size; i++){
     if(line[i] == ' ') space++;
     else if(line[i] != '+'){
-      symbols[i+idx-space] = line[i];  // スペースに対応できてない
+      symbols[i+idx-space] = line[i];
     }
     if(line[i] == '.') comma++;
     count++;
@@ -30,12 +30,10 @@ void calcSymbols(const map<int, char> &symbols, vector<int> &output)
   stack<int> roop_idx_stack;
   stack<int> roop_place_stack;
   auto roop_it = symbols.begin();
-  cout << "start" << endl;
 
   int dot_count_for_debug = 0;
   for(auto it = symbols.begin(); it != symbols.end(); it++){
     if(it == symbols.end()) cout << "END" << endl;
-    //cout << "first: " << it->first << endl; 
     counts[count_idx] += it->first - past_symbol_idx - 1;
     past_symbol_idx = it->first;
     if(it->second == '>'){
@@ -49,37 +47,23 @@ void calcSymbols(const map<int, char> &symbols, vector<int> &output)
     }
     else if(it->second == '-'){
       counts[count_idx]--;
-      // cout << "roop: " << counts[count_idx] << endl;
       continue;
     }
     else if(it->second == '['){
-      //roop_idx_stack.push(count_idx);
       roop_place_stack.push(it->first);
       continue;
     }
     else if(it->second == ']'){
       if(counts[count_idx] > 0){
-        // cout << "top: " << counts[roop_idx_stack.top()] << endl;
-        // cout << "nowcount: " << counts[count_idx] << endl;
-        it = symbols.find(roop_place_stack.top());  // ここから！！！
+        it = symbols.find(roop_place_stack.top());
         past_symbol_idx = it->first;
       } else {
-        // roop_idx_stack.pop();
         roop_place_stack.pop();
       }
-    // cout << "F: " << roop_idx_stack.size() << endl;
       continue;
     }
     else if(it->second == '.'){
       dot_count_for_debug++;
-      // cout << "debug: " << dot_count_for_debug << endl;
-      // cout << endl;
-        // cout << "num: " << counts[count_idx] << endl;
-        // cout << "num0: " << counts[0] << endl;
-        // cout << "num1: " << counts[1] << endl;
-        // cout << "num2: " << counts[2] << endl;
-        // cout << "num3: " << counts[3] << endl;
-        // cout << "idx: " << count_idx << endl;
       printf("%c", counts[count_idx]);
       output[output_count] = counts[count_idx];
       output_count++;
@@ -103,19 +87,8 @@ int main(int argc, char **argv)
   }
   output.resize(1000);
 
-// int a=0;
-//   for(auto it = symbols.begin(); it != symbols.end(); it++){
-//     a++;
-//     cout << "a: " << a << endl;
-//     cout << "it_first: " << it->first << endl;
-//   }
-
   calcSymbols(symbols, output);
   cout << "size: " << output.size() << endl;
-  // for(int i = 0, size = output.size(); i < size; i++){
-    // cout << "output: " << output[i] << endl;
-    // printf("%c", output[i]);
-  // }
 
   return 0;
 }
