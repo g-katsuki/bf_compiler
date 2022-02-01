@@ -1,5 +1,4 @@
 # bf_compiler  
-triangleが少しずれた結果になってしまう。
 `bench-2.bf`は正しく出力されるが遅い
 
 ## build方法  
