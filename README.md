@@ -1,5 +1,5 @@
 # bf_compiler  
-`bench-2.bf`は正しく出力されるが遅い
+mandelbrot-tiny.bfは正しく出力されるが遅い
 
 ## build方法  
 buildに移動して  
