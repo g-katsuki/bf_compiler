@@ -1,6 +1,6 @@
 # bf_compiler  
-`hello.bf`と`triangle.bf`と`mandelbrot-tiny.bf`は正しく出力された。
-mandelbrot-tiny.bfは正しく出力されるが遅い
+`hello.bf`と`triangle.bf`と`mandelbrot-tiny.bf`は正しく出力された. 
+`mandelbrot-tiny.bf`は正しく出力されるが遅い. 
 `bench-2.bf`は遅いためか出力されず
 
 ## build方法  
