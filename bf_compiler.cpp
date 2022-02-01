@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <stack>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 using std::cout;
@@ -33,50 +34,81 @@ void getSymbols(const string &line, map<int, char> &symbols, int &idx, int &comm
 void calcSymbols(const map<int, char> &symbols)
 {
   int roop_count = 0, count_idx = 0, past_symbol_idx = 0, size_count = 1;
-  vector<int> counts(1);
+  vector<unsigned int> counts(1);
   stack<int> roop_idx_stack;
   stack<int> roop_place_stack;
   auto roop_it = symbols.begin();
-
   int dot_count_for_debug = 0;
+  int over_check;
   for(auto it = symbols.begin(); it != symbols.end(); it++){
-    if(it == symbols.end()) cout << "END" << endl;
-    counts[count_idx] += it->first - past_symbol_idx - 1;
+
+    /*** '+'の数だけ足す ***/
+    over_check = counts[count_idx] + it->first - past_symbol_idx - 1;
+    if(over_check > 255) over_check -= 256;
+    counts[count_idx] = over_check;
     past_symbol_idx = it->first;
+
+    /*** デバッグ ***/
+    // cv::waitKey(10);
+    // for(int i = 0; i < counts.size(); i++){
+    //   cout << counts[i] << " ";
+    // }
+    // cout << endl;
+    // if(it == symbols.end()) cout << "END" << endl;
+
     if(it->second == '>'){
       /*** カウントするインデックスを+1 ***/
       count_idx++;
-      if(size_count < count_idx + 1) counts.push_back(0);
+      if(size_count < count_idx + 1){
+        counts.push_back(0);
+        size_count++;
+      }
       continue;
     }
     else if(it->second == '<'){
       /*** カウントするインデックスを-1 ***/
-      count_idx--;
+      if(count_idx > 0) count_idx--;
       continue;
     }
     else if(it->second == '-'){
       /*** 現在のカウントを-1 ***/
-      counts[count_idx]--;
+      if(counts[count_idx] == 0) counts[count_idx] = 255;
+      else counts[count_idx]--;
       continue;
     }
     else if(it->second == '['){
-      /*** 現在の場所をスタックにpush ***/
-      roop_place_stack.push(it->first);
+      /*** カウントが0なら']'に飛ぶ ***/
+      if(counts[count_idx] == 0){
+        int bracket = 1;
+        while(1){
+          it++;
+          if(it->second == '[') bracket++;
+          if(it->second == ']') bracket--;
+          if(bracket == 0) break;
+        }
+        past_symbol_idx = it->first;
+      }
+      else{
+        /*** 現在の場所をスタックにpush ***/
+        roop_place_stack.push(it->first);
+      }
       continue;
     }
     else if(it->second == ']'){
-      if(counts[count_idx] > 0){
-        /*** 現在のカウントが0より大きければスタックの位置に戻る ***/
+      if(counts[count_idx] != 0){
+        /*** 現在のカウントが0でなければスタックの位置に戻る ***/
+        // cout << "    -- " << roop_place_stack.size() << endl;
         it = symbols.find(roop_place_stack.top());
         past_symbol_idx = it->first;
       } else {
-        /*** 現在のカウントが0以下ならスタックをpop ***/
+        /*** 現在のカウントが0ならスタックをpop ***/
         roop_place_stack.pop();
       }
       continue;
     }
     else if(it->second == '.'){
       /*** 出力 ***/
+      // cout << count_idx << ":" << endl;
       printf("%c", counts[count_idx]);
     }
   }
