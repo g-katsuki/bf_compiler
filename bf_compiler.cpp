@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 #include <stack>
-#include <opencv2/opencv.hpp>
 
 using namespace std;
 using std::cout;
@@ -48,14 +47,6 @@ void calcSymbols(const map<int, char> &symbols)
     counts[count_idx] = over_check;
     past_symbol_idx = it->first;
 
-    /*** デバッグ ***/
-    // cv::waitKey(10);
-    // for(int i = 0; i < counts.size(); i++){
-    //   cout << counts[i] << " ";
-    // }
-    // cout << endl;
-    // if(it == symbols.end()) cout << "END" << endl;
-
     if(it->second == '>'){
       /*** カウントするインデックスを+1 ***/
       count_idx++;
@@ -97,7 +88,6 @@ void calcSymbols(const map<int, char> &symbols)
     else if(it->second == ']'){
       if(counts[count_idx] != 0){
         /*** 現在のカウントが0でなければスタックの位置に戻る ***/
-        // cout << "    -- " << roop_place_stack.size() << endl;
         it = symbols.find(roop_place_stack.top());
         past_symbol_idx = it->first;
       } else {
@@ -108,7 +98,6 @@ void calcSymbols(const map<int, char> &symbols)
     }
     else if(it->second == '.'){
       /*** 出力 ***/
-      // cout << count_idx << ":" << endl;
       printf("%c", counts[count_idx]);
     }
   }
